@@ -29,3 +29,12 @@ class NoInternetState extends TodoState {
   @override
   List<Object?> get props => [];
 }
+
+// class UpdateTodoToggle extends TodoState {
+//   bool? toggle = false;
+//
+//   UpdateTodoToggle(this.toggle);
+//
+//   @override
+//   List<Object?> get props => [];
+// }

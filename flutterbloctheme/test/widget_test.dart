@@ -9,8 +9,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flutterbloctheme/main.dart';
+import 'package:flutterbloctheme/models/work_model.dart';
 
 void main() {
+
+  test("description", () {
+    WorkModel model1 = WorkModel(id: 0,name: "Math",isCompleted: false);
+    WorkModel model2 = WorkModel(id: 1,name: "Math",isCompleted: false);
+    if(model1 == model2){
+      print("Equal");
+    }else{
+      print("Not Equal");
+    }
+
+    },);
+
+
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());

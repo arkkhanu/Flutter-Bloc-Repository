@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:math';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,7 +28,7 @@ class TodoBloc extends Bloc<TodoEvents, TodoState> {
     on<TodoEventFetchSingleTodo>((event, emit) async {
       emit(TodoStateLoading());
       TodoModel? single = await _apiService
-          .getSingleTodo(1)
+          .getSingleTodo(Random().nextInt(99))
           .catchError((e) => emit(TodoStateInitial()));
       if (single != null) {
         emit(TodoStateLoadedState(todoModel: single));
@@ -38,6 +39,18 @@ class TodoBloc extends Bloc<TodoEvents, TodoState> {
 
     on<NoInternetEvent>((event, emit) {
       emit(NoInternetState());
+    });
+
+    on<TodoEventUpdate>((event, emit) {
+
+      if (event.todoModel.completed == true) {
+        event.todoModel.completed = false;
+
+        emit(TodoStateLoadedState(todoModel: event.todoModel));
+      } else {
+        event.todoModel.completed = true;
+        emit(TodoStateLoadedState(todoModel: event.todoModel));
+      }
     });
   }
 }
