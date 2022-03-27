@@ -4,6 +4,8 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterbloctheme/bloc/theme_change/theme_change_bloc.dart';
+import 'package:flutterbloctheme/bloc/theme_change/theme_change_event.dart';
 import 'package:flutterbloctheme/bloc/todo/todo_bloc.dart';
 import 'package:flutterbloctheme/bloc/todo/todo_events.dart';
 import 'package:flutterbloctheme/bloc/todo/todo_state.dart';
@@ -26,6 +28,11 @@ class _TodoScreenState extends State<TodoScreen> {
           RepositoryProvider.of<ConnectivityService>(context))
         ..add(TodoEventLoadTodo()),
       child: Scaffold(
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              BlocProvider.of<ThemeChangeBloc>(context).add(ThemeChangeEventChange());
+            },
+          ),
           appBar: AppBar(),
           body: BlocBuilder<TodoBloc, TodoState>(builder: (context, state) {
             if (state is TodoStateInitial) {
@@ -86,10 +93,9 @@ class _TodoScreenState extends State<TodoScreen> {
                     ],
                   ),
                   DropdownSearch<TodoModel>(
-
-                 items: state.todoModelList,
-                    onChanged: (ch){
-                   print(ch);
+                    items: state.todoModelList,
+                    onChanged: (ch) {
+                      print(ch);
                     },
                   ),
                   Expanded(
@@ -111,7 +117,9 @@ class _TodoScreenState extends State<TodoScreen> {
                           subtitle: Checkbox(
                               onChanged: (val) {
                                 BlocProvider.of<TodoBloc>(context).add(
-                                    TodoEventUpdateTodo(todoModelUpdate: state.todoModelList[index]));
+                                    TodoEventUpdateTodo(
+                                        todoModelUpdate:
+                                            state.todoModelList[index]));
                               },
                               value:
                                   state.todoModelList[index].complete ?? false),
