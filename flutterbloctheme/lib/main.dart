@@ -4,7 +4,6 @@ import 'package:flutterbloctheme/services/api_service.dart';
 import 'package:flutterbloctheme/services/connectivity_service.dart';
 import 'package:flutterbloctheme/ui/todo_ui.dart';
 import 'package:flutterbloctheme/ui/work_ui.dart';
-import 'package:flutterbloctheme/ui/work_ui_.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,8 +28,8 @@ class MyApp extends StatelessWidget {
             create: (context) => ConnectivityService(),
           )
         ],
-        // child: const TodoScreen(),
-        child: const WorkScreen(),
+        child: const TodoScreen(),
+        // child: const WorkScreen(),
       ),
     );
   }

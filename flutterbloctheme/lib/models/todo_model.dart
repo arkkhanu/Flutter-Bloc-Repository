@@ -1,36 +1,39 @@
 import 'dart:collection';
 
-import 'dart:developer';
-
 class TodoModel {
-  // {
-  // "userId": 1,
-  // "id": 1,
-  // "title": "delectus aut autem",
-  // "completed": false
-  // }
+  bool? complete;
+  String? id;
+  String? note;
+  String? task;
 
-  int? userId;
-  int? id;
-  String? title;
-  bool? completed;
+  TodoModel({this.complete, this.id, this.note, this.task});
 
-  TodoModel({this.id, this.userId, this.title, this.completed});
+  TodoModel copyWith({
+    bool? complete,
+    String? id,
+    String? note,
+    String? task,
+  }) {
+    return TodoModel(
+        task: task ?? this.task,
+        note: note ?? this.note,
+        complete: complete ?? this.complete,
+        id: id ?? this.id);
+  }
 
   TodoModel.fromJson(dynamic json) {
-
-    userId = json["userId"];
+    complete = json["complete"];
     id = json["id"];
-    title = json["title"];
-    completed = json["completed"];
+    note = json["note"];
+    task = json["task"];
   }
 
   Map<String, dynamic> toJson() {
     var map = HashMap<String, dynamic>();
-    map["userId"] = userId;
+    map["complete"] = complete;
     map["id"] = id;
-    map["title"] = title;
-    map["completed"] = completed;
+    map["note"] = note;
+    map["task"] = task;
     return map;
   }
 

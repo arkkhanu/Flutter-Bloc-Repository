@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterbloctheme/bloc/todo/todo_bloc.dart';
 import 'package:flutterbloctheme/bloc/todo/todo_events.dart';
 import 'package:flutterbloctheme/bloc/todo/todo_state.dart';
+import 'package:flutterbloctheme/models/todo_model.dart';
 import 'package:flutterbloctheme/services/api_service.dart';
 import 'package:flutterbloctheme/services/connectivity_service.dart';
 
@@ -22,11 +23,10 @@ class _TodoScreenState extends State<TodoScreen> {
     return BlocProvider(
       create: (context) => TodoBloc(RepositoryProvider.of<APIService>(context),
           RepositoryProvider.of<ConnectivityService>(context))
-        ..add(TodoEventFetchSingleTodo()),
+        ..add(TodoEventLoadTodo()),
       child: Scaffold(
           appBar: AppBar(),
           body: BlocBuilder<TodoBloc, TodoState>(builder: (context, state) {
-            debugger();
             if (state is TodoStateInitial) {
               return Center(
                   child: Container(
@@ -38,59 +38,86 @@ class _TodoScreenState extends State<TodoScreen> {
                 child: CircularProgressIndicator(),
               );
             }
-            if (state is TodoStateLoadedState) {
-              return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Text(state.todoModel.id.toString()),
-                    Text(state.todoModel.userId.toString()),
-                    Text(state.todoModel.title.toString()),
-                    // CheckboxListTile(
-                    //     value: state.todoModel.completed,
-                    //     onChanged: (_) {
-                    //       BlocProvider.of<TodoBloc>(context)
-                    //           .add(TodoEventUpdate(todoModel: state.todoModel));
-                    //     }),
-                    BlocConsumer<TodoBloc, TodoState>(
-                        builder: (context, _state) {
-                      debugger();
-                      return _state is TodoStateLoadedState
-                          ? CheckboxListTile(
-                              value: _state.todoModel.completed,
-                              onChanged: (bool) {
-                                // debugger();
+            if (state is TodoStateLoaded) {
+              return Column(
+                children: [
+                  Wrap(
+                    children: [
+                      ElevatedButton(
+                          onPressed: () {
+                            BlocProvider.of<TodoBloc>(context)
+                                .add(TodoEventLoadTodo());
+                          },
+                          child: Text("Refresh")),
+                      VerticalDivider(),
+                      ElevatedButton(
+                          onPressed: () {
+                            // BlocProvider.of<TodoBloc>(context).add(TodoEventLoadTodo());
+
+                            context.read<TodoBloc>().add(TodoEventAddTodo(
+                                todoModel: TodoModel(
+                                    id: state.todoModelList.length.toString(),
+                                    task: state.todoModelList.length.toString(),
+                                    note:
+                                        "Some Note ${state.todoModelList.length}",
+                                    complete: false)));
+                          },
+                          child: Text("ADD")),
+                      VerticalDivider(),
+                      ElevatedButton(
+                          onPressed: () {
+                            // BlocProvider.of<TodoBloc>(context).add(TodoEventLoadTodo());
+                            context
+                                .read<TodoBloc>()
+                                .add(TodoEventToggleAllTodo());
+                          },
+                          child: Text("Toggle All")),
+                      VerticalDivider(),
+                      ElevatedButton(
+                          onPressed: () {
+                            // BlocProvider.of<TodoBloc>(context).add(TodoEventLoadTodo());
+
+                            context
+                                .read<TodoBloc>()
+                                .add(TodoEventClearCompletedTodo());
+                          },
+                          child: Text("Clear All")),
+                    ],
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: state.todoModelList.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          onLongPress: () {
+                            BlocProvider.of<TodoBloc>(context).add(
+                                TodoEventDeleteTodo(
+                                    todoModelDelete:
+                                        state.todoModelList[index]));
+                          },
+                          leading:
+                              Text(state.todoModelList[index].id.toString()),
+                          title: Text(
+                              state.todoModelList[index].task ?? "Not Found"),
+                          subtitle: Checkbox(
+                              onChanged: (val) {
                                 BlocProvider.of<TodoBloc>(context).add(
-                                    TodoEventUpdate(
-                                        todoModel: state.todoModel));
-                              })
-                          : Container(
-                              child: Text("Not Found"),
-                            );
-                    }, listener: (_, s) {
-                      debugger();
-                      if (s is TodoStateLoadedState) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("TodoLoadedStaate")));
-                      }
-
-                      int i = 0;
-                    }),
-
-                    // Text(state.todoModel.completed.toString()),
-                    SizedBox(
-                      height: 40,
+                                    TodoEventUpdateTodo(todoModelUpdate: state.todoModelList[index]));
+                              },
+                              value:
+                                  state.todoModelList[index].complete ?? false),
+                        );
+                      },
                     ),
-                    ElevatedButton(
-                        onPressed: () {
-                          BlocProvider.of<TodoBloc>(context)
-                              .add(TodoEventFetchSingleTodo());
-                        },
-                        child: Text("Hit Api"))
-                  ],
-                ),
+                  ),
+                  SizedBox(
+                    height: 40,
+                  ),
+                ],
               );
             }
-            if (state is NoInternetState) {
+            if (state is TodoStateNoInternet) {
               return Center(
                 child: Container(
                   child: Text("No Internet"),

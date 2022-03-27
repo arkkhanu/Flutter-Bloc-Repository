@@ -1,15 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutterbloctheme/models/work_model.dart';
 
+
 abstract class WorkEvent extends Equatable {}
 
 class WorkEventGetAll extends WorkEvent {
-  @override
-  // TODO: implement props
-  List<Object?> get props => [];
-}
-
-class WorkEventGetSingle extends WorkEvent {
   @override
   // TODO: implement props
   List<Object?> get props => [];
@@ -28,7 +23,7 @@ class WorkEventAdd extends WorkEvent {
   WorkEventAdd({required this.workModel});
   @override
   // TODO: implement props
-  List<Object?> get props => [workModel];
+  List<Object?> get props => [workModel.id];
 }
 
 class WorkEventDelete extends WorkEvent {
@@ -38,3 +33,41 @@ class WorkEventDelete extends WorkEvent {
   // TODO: implement props
   List<Object?> get props => [workModel];
 }
+
+/*abstract class WorkEvent extends Equatable {}
+
+class WorkEventGetAll extends WorkEvent {
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
+
+class WorkEventGetSingle extends WorkEvent {
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
+
+class WorkEventUpdate extends WorkEvent {
+  WorkModel workModel;
+  WorkEventUpdate({required this.workModel});
+  @override
+  // TODO: implement props
+  List<Object?> get props => [workModel.isCompleted];
+}
+
+class WorkEventAdd extends WorkEvent {
+  WorkModel workModel;
+  WorkEventAdd({required this.workModel});
+  @override
+  // TODO: implement props
+  List<Object?> get props => [workModel.id];
+}
+
+class WorkEventDelete extends WorkEvent {
+  WorkModel workModel;
+  WorkEventDelete({required this.workModel});
+  @override
+  // TODO: implement props
+  List<Object?> get props => [workModel];
+}*/

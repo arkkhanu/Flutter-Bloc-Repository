@@ -1,27 +1,80 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutterbloctheme/models/todo_model.dart';
 
-abstract class TodoEvents extends Equatable {}
+abstract class TodoEvent extends Equatable {}
 
-class TodoEventFetchSingleTodo extends TodoEvents {
+class TodoEventLoadTodo extends TodoEvent {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
+
+  @override
+  String toString() {
+    return "TodoEventLoadTodo";
+  }
 }
 
-class NoInternetEvent extends TodoEvents {
+class TodoEventAddTodo extends TodoEvent {
+  final TodoModel todoModel;
+
+  TodoEventAddTodo({required this.todoModel});
+
   @override
-  // TODO: implement props
-  List<Object?> get props => [];
+  List<Object?> get props => [todoModel];
+
+  @override
+  String toString() {
+    return "TodoEventAddTodo";
+  }
 }
 
-class TodoEventUpdate extends TodoEvents {
-  TodoModel todoModel;
+class TodoEventUpdateTodo extends TodoEvent {
+  final TodoModel todoModelUpdate;
 
-  TodoEventUpdate({required this.todoModel});
+  TodoEventUpdateTodo({required this.todoModelUpdate});
 
   @override
-  // TODO: implement props
+  List<Object?> get props => [todoModelUpdate];
+
+  @override
+  String toString() {
+    return "TodoEventUpdateTodo";
+  }
+}
+
+class TodoEventDeleteTodo extends TodoEvent {
+  final TodoModel todoModelDelete;
+
+  TodoEventDeleteTodo({required this.todoModelDelete});
+
+  @override
+  List<Object?> get props => [todoModelDelete];
+}
+
+class TodoEventClearCompletedTodo extends TodoEvent {
+  @override
   List<Object?> get props => [];
+
+  @override
+  String toString() {
+    return "TodoEventClearCompletedTodo";
+  }
+}
+
+class TodoEventToggleAllTodo extends TodoEvent {
+  @override
+  List<Object?> get props => [];
+
+  @override
+  String toString() {
+    return "TodoEventToggleAllTodo";
+  }
+}
+class TodoEventNoInternet extends TodoEvent {
+  @override
+  List<Object?> get props => [];
+
+  @override
+  String toString() {
+    return "TodoEventToggleAllTodo";
+  }
 }

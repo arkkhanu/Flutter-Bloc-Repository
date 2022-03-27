@@ -16,7 +16,35 @@ class WorkStateLoading extends WorkState {
 }
 
 class WorkStateLoaded extends WorkState {
+  int? id;
+  bool? isCompleted;
   List<WorkModel> listOfWorkModel;
+
+  WorkStateLoaded({required this.listOfWorkModel});
+
+  @override
+  List<Object?> get props => [listOfWorkModel, id, isCompleted];
+}
+
+
+
+/*abstract class WorkState extends Equatable {}
+
+class WorkStateInitial extends WorkState {
+  @override
+  // TODO: implement props
+  List<Object?> get props => throw UnimplementedError();
+}
+
+class WorkStateLoading extends WorkState {
+  @override
+  // TODO: implement props
+  List<Object?> get props => throw UnimplementedError();
+}
+
+class WorkStateLoaded extends WorkState {
+  List<WorkModel> listOfWorkModel;
+
 
   WorkStateLoaded({required this.listOfWorkModel});
 
@@ -28,4 +56,4 @@ class WorkStateFailed extends WorkState {
   @override
   // TODO: implement props
   List<Object?> get props => throw UnimplementedError();
-}
+}*/

@@ -1,40 +1,32 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../../models/todo_model.dart';
 
-abstract class TodoState extends Equatable {
-  const TodoState();
-}
+@immutable
+abstract class TodoState extends Equatable {}
 
 class TodoStateInitial extends TodoState {
   @override
   List<Object?> get props => [];
 }
-
 class TodoStateLoading extends TodoState {
   @override
   List<Object?> get props => [];
 }
-
-class TodoStateLoadedState extends TodoState {
-  TodoModel todoModel;
-
-  TodoStateLoadedState({required this.todoModel});
-
-  @override
-  List<Object?> get props => [todoModel];
-}
-
-class NoInternetState extends TodoState {
+class TodoStateError extends TodoState {
   @override
   List<Object?> get props => [];
 }
+class TodoStateNoInternet extends TodoState {
+  @override
+  List<Object?> get props => [];
+}
+class TodoStateLoaded extends TodoState {
+  final List<TodoModel> todoModelList;
 
-// class UpdateTodoToggle extends TodoState {
-//   bool? toggle = false;
-//
-//   UpdateTodoToggle(this.toggle);
-//
-//   @override
-//   List<Object?> get props => [];
-// }
+  TodoStateLoaded({required this.todoModelList});
+
+  @override
+  List<Object> get props => [todoModelList];
+}

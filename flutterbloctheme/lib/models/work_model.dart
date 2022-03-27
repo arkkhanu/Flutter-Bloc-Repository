@@ -9,7 +9,7 @@ class WorkModel extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [id];
+  List<Object?> get props => [id, isCompleted, name];
 
   WorkModel copyWith({int? id, String? name, bool? isCompleted}) {
     return WorkModel(
