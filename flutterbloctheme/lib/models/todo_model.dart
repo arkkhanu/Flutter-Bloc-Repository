@@ -41,4 +41,9 @@ class TodoModel {
     List<TodoModel> list = json.map((e) => TodoModel.fromJson(e)).toList();
     return list;
   }
+
+  @override
+  String toString() {
+    return note ?? "Note";
+  }
 }

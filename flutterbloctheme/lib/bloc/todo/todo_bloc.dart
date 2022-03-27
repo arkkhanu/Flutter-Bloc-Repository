@@ -71,11 +71,13 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       //     .toList();
 
       final List<TodoModel> updatedTodoList =
-          (state as TodoStateLoaded).todoModelList.map((e){
-            if(e.id == todoEvent.todoModelUpdate.id){
-              e= e.copyWith(complete: !(todoEvent.todoModelUpdate.complete ?? false));
-            }
-            return e;}).toList();
+          (state as TodoStateLoaded).todoModelList.map((e) {
+        if (e.id == todoEvent.todoModelUpdate.id) {
+          e = e.copyWith(
+              complete: !(todoEvent.todoModelUpdate.complete ?? false));
+        }
+        return e;
+      }).toList();
 
       emitter(TodoStateLoaded(todoModelList: updatedTodoList));
     }
